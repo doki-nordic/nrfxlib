@@ -26,6 +26,12 @@ config NRF_RPC_TR_RPMSG
 	help
 	  If enabled selects RPMsg as a transport layer for nRF PRC.
 
+config NRF_RPC_TR_SHMEM
+	bool "nRF RPC over shared memory"
+	help
+	  If enabled selects shared memory as a transport layer for nRF PRC.
+	  It requires additional API implemented in nrf_rpc_os.h file.
+
 config NRF_RPC_TR_CUSTOM
 	bool "User provided transport layer"
 	help
@@ -85,5 +91,40 @@ config NRF_RPC_AUTO_ARR_CONSTRUCTOR
 
 endchoice
 
+if NRF_RPC_TR_SHMEM
+
+choice
+	prompt "Shared memory blocks"
+	default NRF_RPC_SHMEM_NUM_BLOCKS_32
+
+config NRF_RPC_SHMEM_NUM_BLOCKS_32
+	bool "32 shared memory blocks per channel"
+	help
+	  Selects 32 shared memory blocks per single input or output channel.
+
+config NRF_RPC_SHMEM_NUM_BLOCKS_64
+	bool "64 shared memory blocks per channel"
+	help
+	  Selects 64 shared memory blocks per single input or output channel.
+	  This will increase allocatable memory granularity, but it will have
+	  some impact on performance and code size.
+
+endchoice
+
+config NRF_RPC_SHMEM_OUT_SIZE
+	int "Size of shared memory reserved for output queue"
+	default 2048
+	help
+	  Number of bytes for output queue. Must be the same as NRF_RPC_SHMEM_IN_SIZE
+	  on the other core.
+
+config NRF_RPC_SHMEM_IN_SIZE
+	int "Size of shared memory reserved for input queue"
+	default 2048
+	help
+	  Number of bytes for output queue. Must be the same as NRF_RPC_SHMEM_OUT_SIZE
+	  on the other core.
+
+endif # NRF_RPC_TR_SHMEM
 
 endif # NRF_RPC

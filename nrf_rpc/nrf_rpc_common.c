@@ -14,7 +14,7 @@
 #include <nrf_rpc_errno.h>
 #include <nrf_rpc_common.h>
 
-#if CONFIG_NRF_RPC_AUTO_ARR_CONSTRUCTOR
+#ifdef CONFIG_NRF_RPC_AUTO_ARR_CONSTRUCTOR
 
 static struct _nrf_rpc_auto_arr_item *first_item;
 static void** auto_arr;

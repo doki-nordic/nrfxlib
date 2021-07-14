@@ -171,6 +171,81 @@ void nrf_rpc_os_remote_reserve();
  */
 void nrf_rpc_os_remote_release();
 
+/* Below OS-dependent API is only needed if shared memory transport is used.
+ */
+#ifdef CONFIG_NRF_RPC_TR_SHMEM
+
+/* --------------- Shared memory information --------------- */
+
+/** @brief Defines whether shared memory pointers are contant
+ * (known on build time).
+ *
+ * If defined as `1` @ref nrf_rpc_os_out_shmem_ptr and
+ * @ref nrf_rpc_os_in_shmem_ptr are constant defines.
+ *
+ * If defined as `0` @ref nrf_rpc_os_out_shmem_ptr and
+ * @ref nrf_rpc_os_in_shmem_ptr are not constant and must be set
+ * before exit from @ref nrf_rpc_os_init.
+ */
+#define NRF_RPC_OS_SHMEM_PTR_CONST 0
+
+/** @brief Poiter to shared memory that will be used for output.
+ */
+extern void *nrf_rpc_os_out_shmem_ptr;
+
+/** @brief Poiter to shared memory that will be used for input.
+ */
+extern void *nrf_rpc_os_in_shmem_ptr;
+
+/** @brief Full memory barier.
+ */
+#define NRF_RPC_OS_MEMORY_BARIER() __sync_synchronize()
+
+/* --------------- Inter-core signaling --------------- */
+
+/** @brief Signal other core that new data is waiting.
+ */
+void nrf_rpc_os_signal(void);
+
+/** @brief Sets callback that will be called when the other core
+ *  has signaled incoming data.
+ */
+void nrf_rpc_os_signal_handler(void (*handler)(void));
+
+/* --------------- Atomics --------------- */
+
+typedef some_type nrf_rpc_os_atomic_t;
+
+/* Perform the operation suggested by the name, and return the value that
+ * had previously been in *atomic.
+ */
+uint32_t nrf_rpc_os_atomic_or(nrf_rpc_os_atomic_t *atomic, uint32_t value);
+uint32_t nrf_rpc_os_atomic_and(nrf_rpc_os_atomic_t *atomic, uint32_t value);
+uint32_t nrf_rpc_os_atomic_get(nrf_rpc_os_atomic_t *atomic);
+
+/* --------------- Mutexes --------------- */
+
+typedef some_type nrf_rpc_os_mutex_t;
+void nrf_rpc_os_mutex_init(nrf_rpc_os_mutex_t *mutex);
+void nrf_rpc_os_lock(pthread_mutex_t *mutex);
+void nrf_rpc_os_unlock(pthread_mutex_t *mutex);
+
+/* --------------- Semaphores --------------- */
+
+typedef some_type nrf_rpc_os_sem_t;
+void nrf_rpc_os_sem_init(nrf_rpc_os_sem_t *sem);
+void nrf_rpc_os_take(nrf_rpc_os_sem_t *sem);
+void nrf_rpc_os_give(nrf_rpc_os_sem_t *sem);
+
+/* --------------- Other OS functionality --------------- */
+
+void nrf_rpc_os_yield();
+void nrf_rpc_os_fatal(void);
+int nrf_rpc_os_clz64(uint64_t value);
+int nrf_rpc_os_clz32(uint32_t value);
+
+#endif /* CONFIG_NRF_RPC_TR_SHMEM */
+
 #ifdef __cplusplus
 }
 #endif

@@ -136,7 +136,7 @@ struct nrf_rpc_cbor_rsp_ctx {
 	NRF_RPC_ALLOC((_ctx).out_packet, (_len) + 1);			       \
 	_nrf_rpc_cbor_prepare((struct nrf_rpc_cbor_ctx *)(&(_ctx)), (_len) + 1)
 #else
-#define NRF_RPC_ALLOC(_packet, _len)					       \
+#define NRF_RPC_CBOR_ALLOC(_ctx, _len)					       \
 	_nrf_rpc_cbor_prepare((struct nrf_rpc_cbor_ctx *)(&(_ctx)), (_len) + 1)
 #endif
 

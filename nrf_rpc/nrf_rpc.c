@@ -806,7 +806,6 @@ void nrf_rpc_err(int code, enum nrf_rpc_err_src src,
 	}
 }
 
-
 #ifndef nrf_rpc_tr_alloc_tx_buf
 
 uint8_t *_nrf_rpc_alloc(size_t len)

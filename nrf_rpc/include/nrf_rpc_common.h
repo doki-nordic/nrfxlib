@@ -101,7 +101,7 @@ extern "C" {
 #define NRF_RPC_ASSERT(_expr) \
 	__NRF_RPC_ASSERT(_expr)
 
-#ifdef CONFIG_NRF_RPC_AUTO_ARR_SECTIONS
+#if defined(CONFIG_NRF_RPC_AUTO_ARR_SECTIONS)
 
 /** @brief Initialize automatically registered arrays.
  * 
@@ -164,7 +164,7 @@ static inline int nrf_rpc_auto_arr_init(void)
 #define NRF_RPC_AUTO_ARR_GET(_array_ptr, _index, _type)			       \
 	(((_type *)((const uint8_t *const *)(_array_ptr) + 1))[_index])
 
-#elif CONFIG_NRF_RPC_AUTO_ARR_CONSTRUCTOR
+#elif defined(CONFIG_NRF_RPC_AUTO_ARR_CONSTRUCTOR)
 
 struct _nrf_rpc_auto_arr_item {
 	const char *key;

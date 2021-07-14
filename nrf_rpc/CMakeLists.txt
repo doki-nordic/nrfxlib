@@ -9,6 +9,8 @@ zephyr_include_directories(include)
 zephyr_library()
 zephyr_library_sources(nrf_rpc.c nrf_rpc_common.c)
 
+zephyr_library_sources_ifdef(CONFIG_NRF_RPC_TR_SHMEM nrf_rpc_shmem.c)
+
 zephyr_library_sources_ifdef(CONFIG_NRF_RPC_CBOR nrf_rpc_cbor.c)
 
 zephyr_linker_sources(SECTIONS nrf_rpc.ld)
