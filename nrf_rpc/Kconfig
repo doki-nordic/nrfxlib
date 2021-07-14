@@ -63,4 +63,27 @@ config NRF_RPC_THREAD_POOL_SIZE
 	  the remote side. If there is no available threads then remote side
 	  will wait.
 
+choice
+	prompt "Automatically registered arrays implementation"
+	default NRF_RPC_AUTO_ARR_SECTIONS
+
+config NRF_RPC_AUTO_ARR_SECTIONS
+	bool "Place in sections"
+	help
+	  Automatically registered array items will be placed in dedicated
+	  sections. It will work only on platforms where linker script can
+	  be altered, because the linker script is responsible for putting
+	  them into right place and sort them.
+
+config NRF_RPC_AUTO_ARR_CONSTRUCTOR
+	bool "Use constructor attribute"
+	help
+	  Place automatically registered array items into arrays using
+	  constructor function: __attribute__((constructor)). Not all
+	  platforms correctly supports constructor attribute, so make
+	  sure that it is supported on your platform.
+
+endchoice
+
+
 endif # NRF_RPC

@@ -710,6 +710,8 @@ int nrf_rpc_init(nrf_rpc_err_handler_t err_handler)
 
 	NRF_RPC_DBG("Initializing nRF RPC module");
 
+	nrf_rpc_auto_arr_init();
+
 	groups_check_sum = 0;
 
 	global_err_handler = err_handler;

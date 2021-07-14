@@ -7,7 +7,7 @@
 zephyr_include_directories(include)
 
 zephyr_library()
-zephyr_library_sources(nrf_rpc.c)
+zephyr_library_sources(nrf_rpc.c nrf_rpc_common.c)
 
 zephyr_library_sources_ifdef(CONFIG_NRF_RPC_CBOR nrf_rpc_cbor.c)
 
